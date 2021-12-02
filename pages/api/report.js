@@ -1,8 +1,13 @@
 import {
   retrieveGithubRepos,
   retrieveOrgRepos,
+  retrieveTopicRepos,
 } from "../../helpers/github-search";
-import { GITHUB_API_URL, STACKS_ORGS } from "../../constants/github";
+import {
+  GITHUB_API_URL,
+  STACKS_ORGS,
+  STACKS_TOPICS,
+} from "../../constants/github";
 
 export default async function handler(req, res) {
   // clarity repos
