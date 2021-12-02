@@ -3,11 +3,7 @@ import {
   retrieveOrgRepos,
   retrieveTopicRepos,
 } from "../../helpers/github-search";
-import {
-  GITHUB_API_URL,
-  STACKS_ORGS,
-  STACKS_TOPICS,
-} from "../../constants/github";
+import { GITHUB_API_URL, STACKS_ORGS } from "../../constants/github";
 
 export default async function handler(req, res) {
   // clarity repos
@@ -31,8 +27,5 @@ export default async function handler(req, res) {
   // org repos
   const organizations = Array.from(await retrieveOrgRepos(STACKS_ORGS));
 
-  // topics
-  const topics = Array.from(await retrieveTopicRepos(STACKS_TOPICS));
-
-  res.status(200).json({ clarity, stacksjs, clarinet, organizations, topics });
+  res.status(200).json({ clarity, stacksjs, clarinet, organizations });
 }

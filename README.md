@@ -4,7 +4,6 @@
 - [x] Find repos with `@stacks/transactions` import
 - [x] Find repos with Clarinet configuration
 - [x] Find repos for known organizations
-- [x] Find repos with repo tags: `clarity`, `stacks`, `stx`, or `blockstack`
 
 # Setup
 

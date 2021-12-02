@@ -40,32 +40,26 @@ export async function retrieveGithubRepos(apiUrl) {
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-export function retrieveOrgRepos(orgNames) {
+export async function retrieveOrgRepos(orgNames) {
   let orgRepos = new Set();
 
-  orgNames.map((org) => {
+  for (let i = 0; i < orgNames.length; i++) {
+    const org = orgNames[i];
     let url = `${GITHUB_API_URL}/orgs/${org}/repos`;
-    retrieveGithubRepos(url).then((repos) => {
-      repos.forEach((repo) => {
-        orgRepos.add(repo);
-      });
+
+    const res = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `token ${GITHUB_API_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+      },
     });
-  });
+
+    const jsonResp = await res.json();
+    Array.from(jsonResp).map((item) => {
+      orgRepos.add(item.html_url);
+    });
+  }
 
   return orgRepos;
-}
-
-export function retrieveTopicRepos(topics) {
-  let topicRepos = new Set();
-
-  topics.map((topic) => {
-    let url = `${GITHUB_API_URL}/search/code?q=topic%3A${topic}&sort=indexed`;
-    retrieveGithubRepos(url).then((repos) => {
-      repos.forEach((repo) => {
-        topicRepos.add(repo);
-      });
-    });
-  });
-
-  return topicRepos;
 }
