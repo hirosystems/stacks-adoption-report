@@ -1,10 +1,12 @@
 # Features
+
 - [x] Find repos with `.clar` files
 - [x] Find repos with `@stacks/transactions` import
 - [x] Find repos with Clarinet configuration
-- [ ] Find repos for known organizations
-- [ ] Find repos with repo tags: `stacks`, `stx`, or `blockstack`
+- [x] Find repos for known organizations
+- [x] Find repos with repo tags: `clarity`, `stacks`, `stx`, or `blockstack`
 
+# Setup
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 

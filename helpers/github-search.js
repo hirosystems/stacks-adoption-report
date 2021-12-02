@@ -1,13 +1,13 @@
 const parse = require("parse-link-header");
-import { GITHUB_API_URL, GITHUB_API_TOKEN } from "../constants/github";
+import { GITHUB_API_TOKEN, GITHUB_API_URL } from "../constants/github";
 
-export async function retrieveGithubRepos(query) {
+export async function retrieveGithubRepos(apiUrl) {
   let pageNum = 1;
   let maxPages = 2;
   let repos = new Set();
 
   while (pageNum < maxPages) {
-    let url = `${GITHUB_API_URL}/search/code?q=${query}&sort=indexed&per_page=100&page=${pageNum}`;
+    let url = `${apiUrl}&per_page=100&page=${pageNum}`;
 
     const res = await fetch(url, {
       method: "GET",
@@ -18,8 +18,8 @@ export async function retrieveGithubRepos(query) {
     });
 
     if (res.status > 400) {
-      console.log(`Hitting secondary rate limits. Waiting for 60 seconds ....`);
-      await delay(60000);
+      console.log(`Hitting secondary rate limits. Waiting for 90 seconds ....`);
+      await delay(90000);
     } else {
       const jsonResp = await res.json();
       if (jsonResp.items) {
@@ -40,15 +40,32 @@ export async function retrieveGithubRepos(query) {
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
-function parseLink(s) {
-  const output = {};
-  const regex = /<([^>]+)>; rel="([^"]+)"/g;
+export function retrieveOrgRepos(orgNames) {
+  let orgRepos = new Set();
 
-  let m;
-  while ((m = regex.exec(s))) {
-    const [_, v, k] = m;
-    output[k] = v;
-  }
+  orgNames.map((org) => {
+    let url = `${GITHUB_API_URL}/orgs/${org}/repos`;
+    retrieveGithubRepos(url).then((repos) => {
+      repos.forEach((repo) => {
+        orgRepos.add(repo);
+      });
+    });
+  });
 
-  return output;
+  return orgRepos;
+}
+
+export function retrieveTopicRepos(topics) {
+  let topicRepos = new Set();
+
+  topics.map((topic) => {
+    let url = `${GITHUB_API_URL}/search/code?q=topic%3A${topic}&sort=indexed`;
+    retrieveGithubRepos(url).then((repos) => {
+      repos.forEach((repo) => {
+        topicRepos.add(repo);
+      });
+    });
+  });
+
+  return topicRepos;
 }
