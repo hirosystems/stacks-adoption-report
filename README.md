@@ -1,17 +1,31 @@
-# Features
+A NextJS applications that communicates with the GitHub API in order to run queries that return all repositories associated with the Stacks ecosystem (Clarity files, Clarinet projects, Stacksjs projects, other entity projects).
+
+## Features
 
 - [x] Find repos with `.clar` files
 - [x] Find repos with `@stacks/transactions` import
 - [x] Find repos with Clarinet configuration
 - [x] Find repos for known organizations
 
-# Setup
+## Installation
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+First, install all dependencies:
+
+```bash
+npm install
+# or
+yarn
+```
+
+## Set Github API key
+
+To run the NextJS application successfully, you need to add an environmental key: `GITHUB_API_TOKEN`. If you run the app locally, you can create a `.env.local` file in the root of the project and set the key.
+
+To generate a new key with your GitHub account, visit this page: https://github.com/settings/tokens.
 
 ## Getting Started
 
-First, run the development server:
+Next, run the development server:
 
 ```bash
 npm run dev
@@ -21,11 +35,11 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Run the Stacks adoption report
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Open `http://localhost:3000/api/report` and let it run for a couple of minutes. The server will paginate through the Github results and retry API calls when seeing rate limits. 
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Once completed, a JSON response in the format of the `/report/dec2021.json` file will be returned. To keep track of the last result, copy the JSON response and create a new file manually inside the `report` folder.
 
 ## Learn More
 
